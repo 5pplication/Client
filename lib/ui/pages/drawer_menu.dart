@@ -1,4 +1,4 @@
-import 'package:client/ui/holder/zoomableScaffold.dart';
+import 'package:client/ui/holder/zoomable_scaffold.dart';
 import 'package:client/ui/pages/alarm.dart';
 import 'package:client/ui/pages/clock.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatelessWidget {
+  const MenuScreen({Key? key}) : super(key: key);
+
   // final List<MenuItem> options = [
   //   MenuItem(FontAwesomeIcons.clock, '시계'),
   //   MenuItem(Icons.alarm, '알람'),
