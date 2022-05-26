@@ -19,7 +19,7 @@ class MenuScreen extends StatelessWidget {
       onPanUpdate: (details) {
         //on swiping left
         if (details.delta.dx < -6) {
-          Provider.of<MenuController>(context, listen: true).toggle();
+          Provider.of<MenuController>(context, listen: false).toggle();
         }
       },
       child: Container(
