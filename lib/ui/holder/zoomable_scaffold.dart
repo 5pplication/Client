@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ZoomableScaffold extends StatefulWidget {
-  const ZoomableScaffold(
-      {Key? key,
-      required this.contentScreen,
-      required this.headerText,
-      required this.showButton,
-      this.menuScreen})
-      : super(key: key);
+  const ZoomableScaffold({
+    Key? key,
+    required this.contentScreen,
+    required this.headerText,
+    required this.showButton,
+    this.backgroundColor,
+    this.menuScreen,
+  }) : super(key: key);
 
   final Widget? menuScreen;
   final Layout contentScreen;
   final String headerText;
   final bool showButton;
+  final Color? backgroundColor;
 
   @override
   _ZoomableScaffoldState createState() => _ZoomableScaffoldState();
@@ -48,7 +50,7 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
   createContentDisplay() {
     return zoomAndSlideContent(
       Scaffold(
-          backgroundColor: const Color(0XFF3F51b5),
+          backgroundColor: widget.backgroundColor ?? const Color(0XFF3F51B5),
           bottomNavigationBar: _footerMargin(),
           body: SafeArea(
             child: Column(
@@ -94,7 +96,8 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
             ),
           ),
           appBar: AppBar(
-              backgroundColor: const Color(0XFF3F51b5),
+              backgroundColor:
+                  widget.backgroundColor ?? const Color(0XFF3F51B5),
               elevation: 0.0,
               leading: widget.showButton
                   ? IconButton(
