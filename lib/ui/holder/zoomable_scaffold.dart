@@ -8,7 +8,8 @@ class ZoomableScaffold extends StatefulWidget {
     required this.contentScreen,
     required this.headerText,
     required this.showButton,
-    this.backgroundColor,
+    this.headerBackgroundColor,
+    this.bodyBackgroundColor,
     this.menuScreen,
   }) : super(key: key);
 
@@ -16,7 +17,8 @@ class ZoomableScaffold extends StatefulWidget {
   final Layout contentScreen;
   final String headerText;
   final bool showButton;
-  final Color? backgroundColor;
+  final Color? bodyBackgroundColor;
+  final Color? headerBackgroundColor;
 
   @override
   _ZoomableScaffoldState createState() => _ZoomableScaffoldState();
@@ -50,67 +52,69 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
   createContentDisplay() {
     return zoomAndSlideContent(
       Scaffold(
-          backgroundColor: widget.backgroundColor ?? const Color(0XFF3F51B5),
-          bottomNavigationBar: _footerMargin(),
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(
-                  height: 32,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 32),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        widget.headerText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 28,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 32),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
-                      color: CustomColors.clockBG,
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-                    child: widget.contentScreen.contentBuilder(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          appBar: AppBar(
-              backgroundColor:
-                  widget.backgroundColor ?? const Color(0XFF3F51B5),
-              elevation: 0.0,
-              leading: widget.showButton
-                  ? IconButton(
-                      icon: const Icon(
-                        Icons.menu,
+        backgroundColor:
+            widget.headerBackgroundColor ?? const Color(0XFF3F51B5),
+        bottomNavigationBar: _footerMargin(),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(
+                height: 32,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      widget.headerText,
+                      style: const TextStyle(
                         color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 28,
                       ),
-                      onPressed: () {
-                        Provider.of<MenuController>(context, listen: false)
-                            .toggle();
-                      },
-                    )
-                  : null)),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 32),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                    color: widget.bodyBackgroundColor ?? CustomColors.clockBG,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                  child: widget.contentScreen.contentBuilder(context),
+                ),
+              ),
+            ],
+          ),
+        ),
+        appBar: AppBar(
+            backgroundColor:
+                widget.headerBackgroundColor ?? const Color(0XFF3F51B5),
+            elevation: 0.0,
+            leading: widget.showButton
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Provider.of<MenuController>(context, listen: false)
+                          .toggle();
+                    },
+                  )
+                : null),
+      ),
     );
   }
 
@@ -171,7 +175,7 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
     return Stack(
       children: [
         Container(
-          color: const Color(0XFF3F51b5),
+          color: widget.bodyBackgroundColor ?? const Color(0XFF3F51B5),
           child: Scaffold(
             body: widget.menuScreen,
           ),

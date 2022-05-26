@@ -1,4 +1,4 @@
-import 'package:client/ui/holder/zoomableScaffold.dart';
+import 'package:client/ui/holder/zoomable_scaffold.dart';
 import 'package:client/ui/view/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,22 +42,21 @@ class _ClockState extends State<Clock> with TickerProviderStateMixin {
     return ChangeNotifierProvider(
       create: (context) => menuController,
       child: ZoomableScaffold(
+        showButton: true,
         headerText: "시계",
-        menuScreen: MenuScreen(),
+        menuScreen: const MenuScreen(),
         contentScreen: Layout(
-          contentBuilder: (cc) => Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),
-                  margin: const EdgeInsets.only(
-                      top: 8, left: 8, right: 8, bottom: 0),
-                  child: ClockPage(),
-                ),
-              ],
-            ),
+          contentBuilder: (cc) => Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),
+                margin:
+                    const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
+                child: ClockPage(),
+              ),
+            ],
           ),
         ),
       ),

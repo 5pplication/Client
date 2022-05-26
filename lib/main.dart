@@ -1,4 +1,4 @@
-import 'package:client/ui/pages/clock.dart';
+import 'package:client/ui/pages/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +19,8 @@ class Client extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.dark,
       ),
-      home: const Clock(title: 'client'),
+      // home: const Clock(title: 'client'),
+      home: const Login(title: 'client'),
     );
   }
 }
