@@ -1,21 +1,19 @@
 import 'package:client/ui/holder/zoomable_scaffold.dart';
-import 'package:client/ui/view/dummy.dart';
+import 'package:client/ui/view/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_menu.dart';
-
-class Alarm extends StatefulWidget {
-  const Alarm({Key? key, this.title}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _AlarmState createState() => _AlarmState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _AlarmState extends State<Alarm> with TickerProviderStateMixin {
+class _RegisterState extends State<Register> with TickerProviderStateMixin {
   late MenuController menuController;
 
   @override
@@ -42,21 +40,14 @@ class _AlarmState extends State<Alarm> with TickerProviderStateMixin {
     return ChangeNotifierProvider(
       create: (context) => menuController,
       child: ZoomableScaffold(
-        showButton: true,
-        headerText: "알람",
-        menuScreen: const MenuScreen(),
+        showButton: false,
+        // bodyBackgroundColor: const Color.fromARGB(255, 157, 218, 166),
+        headerText: "회원가입",
         contentScreen: Layout(
-          contentBuilder: (cc) => Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),
-                margin:
-                    const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
-                child: AlarmPage(),
-              ),
-            ],
+          contentBuilder: (cc) => Container(
+            padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),
+            margin: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
+            child: const RegisterPage(),
           ),
         ),
       ),

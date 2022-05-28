@@ -21,3 +21,22 @@ String? validatePassword(String? value) {
     return null;
   }
 }
+
+String? validatePasswordConfirm(String? value, String password) {
+  if (value == null ||
+      value.isEmpty ||
+      value.trim() == "" ||
+      value != password) {
+    return "비밀번호가 일치하지 않습니다";
+  } else {
+    return null;
+  }
+}
+
+String? validateUserName(String? value) {
+  if (value == null || value.isEmpty || value.trim() == "") {
+    return "이 항목을 입력해주세요.";
+  } else {
+    return null;
+  }
+}
