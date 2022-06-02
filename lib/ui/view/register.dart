@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _userPasswordTextFormKey = GlobalKey<FormState>();
   final _userPasswordConfirmTextFormKey = GlobalKey<FormState>();
   final _userUserNameTextFormKey = GlobalKey<FormState>();
+
   late TextEditingController _userEmailController;
   late TextEditingController _userPasswordController;
   late TextEditingController _userPasswordConfirmController;
@@ -47,148 +48,152 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "만나서 반갑습니다!",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16),
-          Form(
-            key: _userUserNameTextFormKey,
-            child: TextFormField(
-              validator: (value) => validateUserName(value),
-              controller: _userUserNameController,
-              decoration: const InputDecoration(
-                icon: Icon(FontAwesomeIcons.addressCard),
-                labelText: "사용자 이름",
-                hintText: "motherfucker",
-                // border: OutlineInputBorder(),
-              ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "만나서 반갑습니다!",
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          ),
-          const SizedBox(height: 8),
-          Form(
-            key: _userEmailTextFormKey,
-            child: TextFormField(
-              validator: (value) => validateEmail(value),
-              controller: _userEmailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                icon: Icon(FontAwesomeIcons.at),
-                labelText: "이메일",
-                hintText: "someone@example.com",
-                // border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Form(
-            key: _userPasswordTextFormKey,
-            child: TextFormField(
-              validator: (value) => validatePassword(value),
-              controller: _userPasswordController,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.key),
-                labelText: "비밀번호",
-                hintText: "********",
-                // border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Form(
-            key: _userPasswordConfirmTextFormKey,
-            child: TextFormField(
-              validator: (value) => validatePasswordConfirm(
-                  value, _userPasswordController.value.text),
-              controller: _userPasswordConfirmController,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.key),
-                labelText: "비밀번호 확인",
-                hintText: "********",
-                // border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          FlutterPwValidator(
-              controller: _userPasswordController,
-              strings: KoreanStrings(),
-              minLength: 8,
-              uppercaseCharCount: 1,
-              numericCharCount: 3,
-              specialCharCount: 1,
-              width: 400,
-              height: 150,
-              onSuccess: () {
-                setState(() {
-                  _canRegister = true;
-                });
-              },
-              onFail: () {
-                setState(() {
-                  _canRegister = false;
-                });
-              }),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () async {
-              if (_userUserNameTextFormKey.currentState!.validate() &&
-                  _userEmailTextFormKey.currentState!.validate() &&
-                  _userPasswordTextFormKey.currentState!.validate() &&
-                  _userPasswordConfirmTextFormKey.currentState!.validate() &&
-                  _canRegister) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('회원가입중')),
-                );
-                if (kDebugMode) {
-                  print(_userEmailController.value.text);
-                  print(_userPasswordController.value.text);
-                }
-                final result = await register(
-                    _userEmailController.value.text,
-                    _userPasswordController.value.text,
-                    _userUserNameController.value.text);
-                createSmoothDialog(
-                    context,
-                    "서버의 메세지",
-                    Text(result.message),
-                    TextButton(
-                      child: const Text("닫기"),
-                      onPressed: () async {
-                        return Navigator.pop(context);
-                      },
-                    ),
-                    null,
-                    false);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('필드의 일부 또는 전체가 조건을 충족하지 않습니다.')),
-                );
-              }
-            },
-            child: const Text("회원가입"),
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  //side: BorderSide(color: Colors.red) // border line color
+            const SizedBox(height: 16),
+            Form(
+              key: _userUserNameTextFormKey,
+              child: TextFormField(
+                validator: (value) => validateUserName(value),
+                controller: _userUserNameController,
+                decoration: const InputDecoration(
+                  icon: Icon(FontAwesomeIcons.addressCard),
+                  labelText: "사용자 이름",
+                  hintText: "username",
+                  // border: OutlineInputBorder(),
                 ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Form(
+              key: _userEmailTextFormKey,
+              child: TextFormField(
+                validator: (value) => validateEmail(value),
+                controller: _userEmailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  icon: Icon(FontAwesomeIcons.at),
+                  labelText: "이메일",
+                  hintText: "someone@example.com",
+                  // border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Form(
+              key: _userPasswordTextFormKey,
+              child: TextFormField(
+                validator: (value) => validatePassword(value),
+                controller: _userPasswordController,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.key),
+                  labelText: "비밀번호",
+                  hintText: "********",
+                  // border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Form(
+              key: _userPasswordConfirmTextFormKey,
+              child: TextFormField(
+                validator: (value) => validatePasswordConfirm(
+                    value, _userPasswordController.value.text),
+                controller: _userPasswordConfirmController,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.key),
+                  labelText: "비밀번호 확인",
+                  hintText: "********",
+                  // border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            FlutterPwValidator(
+                controller: _userPasswordController,
+                strings: KoreanStrings(),
+                minLength: 8,
+                uppercaseCharCount: 1,
+                numericCharCount: 3,
+                specialCharCount: 1,
+                width: 400,
+                height: 150,
+                onSuccess: () {
+                  setState(() {
+                    _canRegister = true;
+                  });
+                },
+                onFail: () {
+                  setState(() {
+                    _canRegister = false;
+                  });
+                }),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                if (_userUserNameTextFormKey.currentState!.validate() &&
+                    _userEmailTextFormKey.currentState!.validate() &&
+                    _userPasswordTextFormKey.currentState!.validate() &&
+                    _userPasswordConfirmTextFormKey.currentState!.validate() &&
+                    _canRegister) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('회원가입중')),
+                  );
+                  if (kDebugMode) {
+                    print(_userEmailController.value.text);
+                    print(_userPasswordController.value.text);
+                  }
+                  final result = await register(
+                      _userEmailController.value.text,
+                      _userPasswordController.value.text,
+                      _userUserNameController.value.text);
+                  createSmoothDialog(
+                      context,
+                      "서버의 메세지",
+                      Text(result.message),
+                      TextButton(
+                        child: const Text("닫기"),
+                        onPressed: () async {
+                          return Navigator.pop(context);
+                        },
+                      ),
+                      null,
+                      false);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('필드의 일부 또는 전체가 조건을 충족하지 않습니다.')),
+                  );
+                }
+              },
+              child: const Text("회원가입"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.orange),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    //side: BorderSide(color: Colors.red) // border line color
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

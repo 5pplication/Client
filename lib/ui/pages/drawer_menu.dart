@@ -1,6 +1,9 @@
+import 'package:client/globals.dart';
+import 'package:client/ui/dialog/smooth_dialog.dart';
 import 'package:client/ui/holder/zoomable_scaffold.dart';
 import 'package:client/ui/pages/clock.dart';
 import 'package:client/ui/pages/dummy.dart';
+import 'package:client/ui/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -127,23 +130,46 @@ class MenuScreen extends StatelessWidget {
               flex: 2,
             ),
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                await secureStorage?.delete(key: "email");
+                await secureStorage?.delete(key: "password");
+                createSmoothDialog(
+                    context,
+                    "로그아웃됨",
+                    const Text("로그아웃 되었습니다."),
+                    TextButton(
+                      child: const Text("확인"),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
+                          (route) => false,
+                        );
+                      },
+                    ),
+                    const Icon(Icons.logout),
+                    false);
+              },
               leading: const Icon(
-                Icons.info,
+                Icons.logout,
                 color: Colors.white,
                 size: 20,
               ),
-              title: const Text('정보',
-                  style: TextStyle(fontSize: 14, color: Colors.white)),
+              title: const Text(
+                '로그아웃',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromRGBO(229, 57, 53, 1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
+            // THIS IS DUMMY
             ListTile(
               onTap: () {},
-              leading: const Icon(
-                FontAwesomeIcons.github,
-                color: Colors.white,
-                size: 20,
-              ),
-              title: const Text('GitHub',
+              title: const Text(' ',
                   style: TextStyle(fontSize: 14, color: Colors.white)),
             ),
           ],
