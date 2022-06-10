@@ -57,64 +57,63 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
               widget.headerBackgroundColor ?? const Color(0XFF3F51B5),
           bottomNavigationBar: _footerMargin(),
           body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(
-                  height: 32,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 32),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        widget.headerText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 28,
+            maintainBottomViewPadding: true,
+            child: CustomScrollView(
+                physics: const ClampingScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40),
+                              ),
+                              color: widget.bodyBackgroundColor ??
+                                  CustomColors.clockBG,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 0),
+                            child: widget.contentScreen.contentBuilder(context),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 32),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
-                      color: widget.bodyBackgroundColor ?? CustomColors.clockBG,
+                      ],
                     ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-                    child: widget.contentScreen.contentBuilder(context),
                   ),
-                ),
-              ],
-            ),
+                ]),
           ),
           appBar: AppBar(
-              backgroundColor:
-                  widget.headerBackgroundColor ?? const Color(0XFF3F51B5),
-              elevation: 0.0,
-              leading: widget.showButton
-                  ? IconButton(
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Provider.of<MenuController>(context, listen: false)
-                            .toggle();
-                      },
-                    )
-                  : null),
+            centerTitle: false,
+            title: Text(
+              widget.headerText,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            backgroundColor:
+                widget.headerBackgroundColor ?? const Color(0XFF3F51B5),
+            elevation: 0.0,
+            titleSpacing: widget.showButton ? null : 32,
+            leadingWidth: 32,
+            leading: widget.showButton
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Provider.of<MenuController>(context, listen: false)
+                          .toggle();
+                    },
+                  )
+                : null,
+          ),
         ),
       ),
     );

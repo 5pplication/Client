@@ -1,8 +1,8 @@
 import 'package:client/globals.dart';
 import 'package:client/ui/dialog/smooth_dialog.dart';
 import 'package:client/ui/holder/zoomable_scaffold.dart';
-import 'package:client/ui/pages/clock.dart';
 import 'package:client/ui/pages/dummy.dart';
+import 'package:client/ui/pages/feed.dart';
 import 'package:client/ui/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,24 +43,25 @@ class MenuScreen extends StatelessWidget {
               flex: 7,
               child: Center(
                 child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
                   child: Column(children: <Widget>[
                     ListTile(
                       title: const Text(
-                        " 시계",
+                        "피드",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
                       leading: const Icon(
-                        FontAwesomeIcons.clock,
+                        Icons.feed,
                         color: Colors.white,
                         size: 20,
                       ),
                       onTap: () => {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (BuildContext context) => const Clock(),
+                            builder: (BuildContext context) => const Feed(),
                           ),
                         ),
                       },
