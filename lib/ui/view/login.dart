@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../utils/net/model/login.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -122,24 +124,64 @@ class _LoginPageState extends State<LoginPage> {
                   print(_userPasswordController.value.text);
                 }
                 try {
-                  await login(_userEmailController.value.text,
-                          _userPasswordController.value.text)
-                      .then(
-                    (result) => {
-                      createSmoothDialog(
-                          context,
-                          "서버의 메세지",
-                          Text(result.message),
-                          TextButton(
-                            child: const Text("닫기"),
-                            onPressed: () async {
-                              return Navigator.pop(context);
-                            },
-                          ),
-                          null,
-                          false)
-                    },
-                  );
+                  String resultTitleString;
+                  String resultMessageString;
+                  bool success = false;
+                  Login loginResult = await login(
+                      _userEmailController.value.text,
+                      _userPasswordController.value.text);
+                  print(loginResult.message);
+
+                  switch (loginResult.message) {
+                    case "noId":
+                      resultTitleString = "로그인 실패";
+                      resultMessageString = "해당 계정이 존재하지 않습니다. 계정을 만들어 보세요.";
+                      break;
+                    case "wrongPassword":
+                      resultTitleString = "로그인 실패";
+                      resultMessageString = "암호가 일치하지 않습니다.";
+                      break;
+                    case "welcome":
+                      success = true;
+                      resultTitleString = "로그인 성공";
+                      resultMessageString = "로그인 성공";
+                      break;
+                    default:
+                      resultTitleString = "서버의 메세지";
+                      resultMessageString = loginResult.message;
+                  }
+                  if (!success) {
+                    createSmoothDialog(
+                        context,
+                        resultTitleString,
+                        Text(resultMessageString),
+                        TextButton(
+                          child: const Text("닫기"),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            try {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                            } catch (e) {
+                              return;
+                            }
+                            return;
+                          },
+                        ),
+                        null,
+                        false);
+                  } else {
+                    secureStorage?.write(
+                        key: "email", value: _userEmailController.value.text);
+                    secureStorage?.write(
+                        key: "password",
+                        value: _userPasswordController.value.text);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Clock()),
+                      (route) => false,
+                    );
+                  }
                 } catch (e) {
                   print("서버 터짐 티비");
                   print(e);
@@ -156,20 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                       null,
                       false);
                 }
-                await secureStorage?.write(
-                    key: "email", value: _userEmailController.value.text);
-                await secureStorage?.write(
-                    key: "password", value: _userPasswordController.value.text);
 
                 print(await secureStorage?.read(key: "email"));
                 print(await secureStorage?.read(key: "password"));
-
-                // 이거 로그인 성공시로 옮기기
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Clock()),
-                  (route) => false,
-                );
               }
             },
             child: const Text("로그인"),
