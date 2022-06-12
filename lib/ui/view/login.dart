@@ -176,6 +176,11 @@ class _LoginPageState extends State<LoginPage> {
                     secureStorage?.write(
                         key: "password",
                         value: _userPasswordController.value.text);
+                    try {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    } catch (e) {
+                      return;
+                    }
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => const Clock()),
@@ -183,8 +188,9 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   }
                 } catch (e) {
-                  print("서버 터짐 티비");
-                  print(e);
+                  if (kDebugMode) {
+                    print("Server Connectioin Failed: \n" + e.toString());
+                  }
                   createSmoothDialog(
                       context,
                       "어쩔티비",
@@ -198,9 +204,10 @@ class _LoginPageState extends State<LoginPage> {
                       null,
                       false);
                 }
-
-                print(await secureStorage?.read(key: "email"));
-                print(await secureStorage?.read(key: "password"));
+                if (kDebugMode) {
+                  print(await secureStorage?.read(key: "email"));
+                  print(await secureStorage?.read(key: "password"));
+                }
               }
             },
             child: const Text("로그인"),
