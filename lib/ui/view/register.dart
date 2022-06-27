@@ -166,6 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextButton(
                       child: const Text("닫기"),
                       onPressed: () async {
+                        Navigator.pop(context);
                         return Navigator.pop(context);
                       },
                     ),

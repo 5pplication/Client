@@ -3,6 +3,7 @@ import 'package:client/ui/view/mapView.dart';
 import 'package:client/utils/net/model/article.dart';
 import 'package:client/utils/net/requester.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -27,77 +28,89 @@ class _FeedPageState extends State<FeedPage>
     // var offsetSign = '';
     // if (!timezoneString.startsWith('-')) offsetSign = '+';
 
-    return Center(
-      child: FutureBuilder(
-        future: getArticleByPos("37.123", "127.123"),
-        builder: (context, snapshot) {
-          List<Article>? data = snapshot.data as List<Article>?;
-          if (snapshot.hasData == false) {
-            return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}'); // 에러명을 텍스트에 뿌려줌
-          } else {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: data?.length,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      DateTime time = DateTime.parse(data![index].date!);
-                      String timeParsed =
-                          "${time.year}년 ${time.month}월 ${time.day}일";
+    return SafeArea(
+      child: Phoenix(
+        child: Center(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await getArticleByPos("37.123", "127.123");
+              Phoenix.rebirth(context);
+            },
+            child: FutureBuilder(
+              future: getArticleByPos("37.123", "127.123"),
+              builder: (context, snapshot) {
+                List<Article>? data = snapshot.data as List<Article>?;
+                if (snapshot.hasData == false) {
+                  return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}'); // 에러명을 텍스트에 뿌려줌
+                } else {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: data?.length,
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            DateTime time = DateTime.parse(data![index].date!);
+                            String timeParsed =
+                                "${time.year}년 ${time.month}월 ${time.day}일";
 
-                      return Container(
-                        color: Colors.black,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => MyMapView(
-                                  url:
-                                      "https://www.google.com/maps/search/${data[index].latitude!},${data[index].longitude!}",
+                            return Container(
+                              color: Colors.black,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MyMapView(
+                                        url:
+                                            "https://www.google.com/maps/search/${data[index].latitude!},${data[index].longitude!}",
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text("작성자: ${data[index].email!}"),
+                                          ],
+                                        ),
+                                        CachedNetworkImage(
+                                          imageUrl: getImageUrl(
+                                            data[index]
+                                                .images!
+                                                .split(' ')[0]
+                                                .trim()
+                                                .replaceAll("[", "")
+                                                .replaceAll("]", ""),
+                                          ),
+                                        ),
+                                        Text(data[index].body!),
+                                        Text("작성일: $timeParsed"),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
                           },
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text("작성자: ${data[index].email!}"),
-                                    ],
-                                  ),
-                                  CachedNetworkImage(
-                                    imageUrl: getImageUrl(
-                                      data[index]
-                                          .images!
-                                          .split(' ')[0]
-                                          .trim()
-                                          .replaceAll("[", "")
-                                          .replaceAll("]", ""),
-                                    ),
-                                  ),
-                                  Text(data[index].body!),
-                                  Text("작성일: $timeParsed"),
-                                ],
-                              ),
-                            ),
-                          ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          }
-        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

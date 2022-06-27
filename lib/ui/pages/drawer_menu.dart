@@ -1,11 +1,9 @@
 import 'package:client/globals.dart';
 import 'package:client/ui/dialog/smooth_dialog.dart';
 import 'package:client/ui/holder/zoomable_scaffold.dart';
-import 'package:client/ui/pages/dummy.dart';
 import 'package:client/ui/pages/feed.dart';
 import 'package:client/ui/pages/login.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -66,63 +64,63 @@ class MenuScreen extends StatelessWidget {
                         ),
                       },
                     ),
-                    ListTile(
-                      title: const Text(
-                        " 알람",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      leading: const Icon(
-                        Icons.alarm,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onTap: () => {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const Alarm(),
-                          ),
-                        ),
-                      },
-                    ),
-                    ListTile(
-                      title: const Text(
-                        " 타이머",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      leading: const Icon(
-                        Icons.timer,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onTap: () {
-                        // Navigator.of(context).pop();
-                        // Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new Demo1()));
-                      },
-                    ),
-                    ListTile(
-                      title: const Text(
-                        " 스톱워치",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      leading: const Icon(
-                        FontAwesomeIcons.stopwatch,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onTap: () {
-                        // Navigator.of(context).pop();
-                        // Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new Demo1()));
-                      },
-                    ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     " 알람",
+                    //     style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white),
+                    //   ),
+                    //   leading: const Icon(
+                    //     Icons.alarm,
+                    //     color: Colors.white,
+                    //     size: 20,
+                    //   ),
+                    //   onTap: () => {
+                    //     Navigator.of(context).pushReplacement(
+                    //       MaterialPageRoute(
+                    //         builder: (BuildContext context) => const Alarm(),
+                    //       ),
+                    //     ),
+                    //   },
+                    // ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     " 타이머",
+                    //     style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white),
+                    //   ),
+                    //   leading: const Icon(
+                    //     Icons.timer,
+                    //     color: Colors.white,
+                    //     size: 20,
+                    //   ),
+                    //   onTap: () {
+                    //     // Navigator.of(context).pop();
+                    //     // Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new Demo1()));
+                    //   },
+                    // ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     " 스톱워치",
+                    //     style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white),
+                    //   ),
+                    //   leading: const Icon(
+                    //     FontAwesomeIcons.stopwatch,
+                    //     color: Colors.white,
+                    //     size: 20,
+                    //   ),
+                    //   onTap: () {
+                    //     // Navigator.of(context).pop();
+                    //     // Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new Demo1()));
+                    //   },
+                    // ),
                   ]),
                 ),
               ),
