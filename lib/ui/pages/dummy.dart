@@ -45,6 +45,7 @@ class _AlarmState extends State<Alarm> with TickerProviderStateMixin {
         showButton: true,
         headerText: "알람",
         menuScreen: const MenuScreen(),
+        useSliver: true,
         contentScreen: Layout(
           contentBuilder: (cc) => Column(
             mainAxisAlignment: MainAxisAlignment.start,

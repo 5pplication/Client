@@ -45,19 +45,9 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
         showButton: true,
         headerText: "피드",
         menuScreen: const MenuScreen(),
+        useSliver: false,
         contentScreen: Layout(
-          contentBuilder: (cc) => Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),
-                margin:
-                    const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
-                child: FeedPage(),
-              ),
-            ],
-          ),
+          contentBuilder: (cc) => const FeedPage(),
         ),
       ),
     );

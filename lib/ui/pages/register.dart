@@ -43,6 +43,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
         showButton: false,
         // bodyBackgroundColor: const Color.fromARGB(255, 157, 218, 166),
         headerText: "회원가입",
+        useSliver: true,
         contentScreen: Layout(
           contentBuilder: (cc) => Container(
             padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),

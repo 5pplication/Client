@@ -1,6 +1,6 @@
 import 'package:client/globals.dart';
 import 'package:client/ui/dialog/smooth_dialog.dart';
-import 'package:client/ui/pages/clock.dart';
+import 'package:client/ui/pages/feed.dart';
 import 'package:client/ui/pages/register.dart';
 import 'package:client/utils/form_checker.dart';
 import 'package:client/utils/net/requester.dart';
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
     if (email != null && password != null) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const Clock()),
+        MaterialPageRoute(builder: (context) => const Feed()),
         (route) => false,
       );
     }
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const Clock()),
+                      MaterialPageRoute(builder: (context) => const Feed()),
                       (route) => false,
                     );
                   }

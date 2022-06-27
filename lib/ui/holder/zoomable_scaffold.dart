@@ -8,6 +8,7 @@ class ZoomableScaffold extends StatefulWidget {
     required this.contentScreen,
     required this.headerText,
     required this.showButton,
+    required this.useSliver,
     this.headerBackgroundColor,
     this.bodyBackgroundColor,
     this.menuScreen,
@@ -19,6 +20,7 @@ class ZoomableScaffold extends StatefulWidget {
   final bool showButton;
   final Color? bodyBackgroundColor;
   final Color? headerBackgroundColor;
+  final bool useSliver;
 
   @override
   _ZoomableScaffoldState createState() => _ZoomableScaffoldState();
@@ -58,34 +60,38 @@ class _ZoomableScaffoldState extends State<ZoomableScaffold>
           bottomNavigationBar: _footerMargin(),
           body: SafeArea(
             maintainBottomViewPadding: true,
-            child: CustomScrollView(
-                physics: const ClampingScrollPhysics(),
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40),
+            child: widget.useSliver
+                ? CustomScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    slivers: [
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(40),
+                                    topRight: Radius.circular(40),
+                                  ),
+                                  color: widget.bodyBackgroundColor ??
+                                      CustomColors.clockBG,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 0),
+                                child: widget.contentScreen
+                                    .contentBuilder(context),
                               ),
-                              color: widget.bodyBackgroundColor ??
-                                  CustomColors.clockBG,
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 0),
-                            child: widget.contentScreen.contentBuilder(context),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ]),
+                      ),
+                    ],
+                  )
+                : widget.contentScreen.contentBuilder(context),
           ),
           appBar: AppBar(
             centerTitle: false,

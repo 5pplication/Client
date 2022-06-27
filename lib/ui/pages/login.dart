@@ -43,6 +43,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         showButton: false,
         // bodyBackgroundColor: const Color.fromARGB(255, 157, 218, 166),
         headerText: "로그인",
+        useSliver: true,
         contentScreen: Layout(
           contentBuilder: (cc) => Container(
             padding: const EdgeInsets.fromLTRB(16, 3, 16, 6),

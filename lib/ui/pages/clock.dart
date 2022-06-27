@@ -45,6 +45,7 @@ class _ClockState extends State<Clock> with TickerProviderStateMixin {
         showButton: true,
         headerText: "시계",
         menuScreen: const MenuScreen(),
+        useSliver: true,
         contentScreen: Layout(
           contentBuilder: (cc) => Column(
             mainAxisAlignment: MainAxisAlignment.start,
